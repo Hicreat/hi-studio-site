@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>项目条目生成器｜Hi STUDIO</title>
+<style>
+  body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;margin:0;padding:24px;background:#0b0d10;color:#e8edf5}
+  h1{font-size:20px;margin:0 0 16px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  label{font-size:13px;color:#9fb0c3}
+  input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #203040;background:#0f141a;color:#e8edf5}
+  textarea{height:120px}
+  .row{display:flex;gap:12px;margin-top:12px}
+  .btn{background:#0c1922;border:1px solid #1c2a36;color:#cce6f7;border-radius:10px;padding:10px 14px;cursor:pointer}
+  .out{margin-top:16px}
+  pre{background:#0f141a;border:1px solid #203040;border-radius:12px;padding:12px;white-space:pre-wrap;word-break:break-all}
+  .tip{color:#9fb0c3;font-size:13px}
+</style>
+</head>
+<body>
+<h1>项目条目生成器｜Hi STUDIO</h1>
+<div class="grid">
+  <div>
+    <label>标题（title）</label>
+    <input id="title" placeholder="例如：E8S Pro 影游旗舰 30s">
+  </div>
+  <div>
+    <label>年份（year）</label>
+    <input id="year" type="number" placeholder="2025">
+  </div>
+  <div>
+    <label>产品线（productLine）</label>
+    <input id="product" placeholder="RGB-MiniLED / ULED X / 激光电视">
+  </div>
+  <div>
+    <label>平台（platform）</label>
+    <select id="platform"><option>新片场</option><option>视频号</option></select>
+  </div>
+  <div>
+    <label>封面图（cover URL）</label>
+    <input id="cover" placeholder="https://.../cover.jpg">
+  </div>
+  <div>
+    <label>视频链接（url）</label>
+    <input id="url" placeholder="https://www.xinpianchang.com/...">
+  </div>
+  <div style="grid-column:1/3">
+    <label>标签（tags，分号分隔）</label>
+    <input id="tags" placeholder="发布会;卖点短片;30s">
+  </div>
+</div>
+<div class="row">
+  <button class="btn" onclick="gen()">生成 JSON 片段</button>
+  <button class="btn" onclick="copyOut()">复制到剪贴板</button>
+</div>
+<div class="out">
+  <label>JSON 片段：</label>
+  <pre id="out"></pre>
+</div>
+<p class="tip">使用方式：把上面生成的片段插入到 <code>data/projects.json</code> 的方括号中，注意逗号。也可以删除旧条目，或调整顺序控制首页预览的展示。</p>
+<script>
+function gen(){
+  const title = v('title'), year = parseInt(v('year')), product=v('product'), platform=v('platform'), cover=v('cover'), url=v('url');
+  const tags = v('tags').split(';').map(s=>s.trim()).filter(Boolean);
+  if(!title || !year || !product || !platform || !url){
+    alert('请至少填写：标题、年份、产品线、平台、视频链接'); return;
+  }
+  const obj = { title, year, productLine:product, platform, cover, url, tags };
+  const json = JSON.stringify(obj, null, 2);
+  document.getElementById('out').textContent = json + ',';
+}
+function copyOut(){
+  const txt = document.getElementById('out').textContent;
+  if(!txt){ alert('请先生成'); return; }
+  navigator.clipboard.writeText(txt).then(()=>alert('已复制'));
+}
+function v(id){ return document.getElementById(id).value.trim(); }
+</script>
+</body>
+</html>

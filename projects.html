@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Works｜项目作品展示</title>
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Works｜项目作品展示</h1>
+    </div>
+
+    <div class="filters">
+      <input class="search" id="q" placeholder="搜索标题 / 标签…" />
+      <select class="select" id="year">
+        <option value="">全部年份</option>
+      </select>
+      <select class="select" id="product">
+        <option value="">全部产品线</option>
+      </select>
+      <select class="select" id="platform">
+        <option value="">全部平台</option>
+        <option>新片场</option>
+        <option>视频号</option>
+      </select>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="footer" id="count"></div>
+  </div>
+
+<script>
+async function load(){
+  const res = await fetch('data/projects.json?_=' + Date.now());
+  const items = await res.json();
+
+  // Build filter options
+  const years = [...new Set(items.map(i=>i.year))].sort((a,b)=>b-a);
+  const products = [...new Set(items.map(i=>i.productLine))];
+  const yearSel = document.getElementById('year');
+  years.forEach(y=>{ const o=document.createElement('option'); o.textContent=y; o.value=y; yearSel.appendChild(o); });
+  const productSel = document.getElementById('product');
+  products.forEach(p=>{ const o=document.createElement('option'); o.textContent=p; o.value=p; productSel.appendChild(o); });
+
+  const state = { q:'', year:'', product:'', platform:'' };
+  document.getElementById('q').addEventListener('input', e=>{ state.q = e.target.value.trim().toLowerCase(); render(); });
+  yearSel.addEventListener('change', e=>{ state.year = e.target.value; render(); });
+  productSel.addEventListener('change', e=>{ state.product = e.target.value; render(); });
+  document.getElementById('platform').addEventListener('change', e=>{ state.platform = e.target.value; render(); });
+
+  const grid = document.getElementById('grid'), count = document.getElementById('count');
+
+  function match(item){
+    if(state.year && String(item.year) !== state.year) return false;
+    if(state.product && item.productLine !== state.product) return false;
+    if(state.platform && item.platform !== state.platform) return false;
+    if(state.q){
+      const hay = (item.title + ' ' + (item.tags||[]).join(' ')).toLowerCase();
+      if(!hay.includes(state.q)) return false;
+    }
+    return true;
+  }
+
+  function card(item){
+    const tags = (item.tags||[]).map(t=>`<span class="chip">${t}</span>`).join('');
+    return `
+      <article class="card">
+        <a class="thumb" href="${item.url}" target="_blank" rel="noopener">
+          <img src="${item.cover}" alt="${item.title}" />
+          <span class="badge">${item.platform}</span>
+        </a>
+        <div class="content">
+          <h3 class="title">${item.title}</h3>
+          <div class="meta"><span>${item.year}</span><span>${item.productLine}</span></div>
+          <div class="chips">${tags}</div>
+          <div class="actions">
+            <button class="btn" onclick="window.open('${item.url}','_blank')">打开链接</button>
+            <button class="btn" onclick="navigator.clipboard.writeText('${item.url}')">复制链接</button>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function render(){
+    const list = items.filter(match);
+    grid.innerHTML = list.map(card).join('');
+    count.textContent = `共 ${list.length} 个项目 · 数据来源：本仓库 data/projects.json`;
+  }
+
+  render();
+}
+load();
+</script>
+</body>
+</html>
