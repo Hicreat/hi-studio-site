@@ -6,7 +6,11 @@
     "platform": "新片场",
     "cover": "https://images.unsplash.com/photo-1495567720989-cebdbdd97913?q=80&w=1600&auto=format&fit=crop",
     "url": "https://www.xinpianchang.com/a12337248",
-    "tags": ["发布会","卖点短片","30s"]
+    "tags": [
+      "发布会",
+      "卖点短片",
+      "30s"
+    ]
   },
   {
     "title": "U7S Pro 真实试炼",
@@ -15,7 +19,10 @@
     "platform": "新片场",
     "cover": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1600&auto=format&fit=crop",
     "url": "https://www.xinpianchang.com/a12137314",
-    "tags": ["主题片","画质对比"]
+    "tags": [
+      "主题片",
+      "画质对比"
+    ]
   },
   {
     "title": "激光电视 520 节日短片",
@@ -24,6 +31,9 @@
     "platform": "新片场",
     "cover": "https://images.unsplash.com/photo-1491446559770-3fc03a481cdf?q=80&w=1600&auto=format&fit=crop",
     "url": "https://www.xinpianchang.com/a13333091",
-    "tags": ["节日","品牌情感"]
+    "tags": [
+      "节日",
+      "品牌情感"
+    ]
   }
 ]
