@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hi STUDIO｜首页</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Hero Section -->
   <header class="hero">
     <h1>Hi STUDIO</h1>
-    <p>海信视像旗下创意工作室，专注于通过视觉创意打造产品说服力。</p>
-    <p class="scroll-down">↓ 看我们怎么整活</p>
+    <p class="slogan">海信视像旗下创意工作室，专注于通过视觉创意打造产品说服力。</p>
+    <p class="scroll-tip">↓ 看我们怎么整活</p>
   </header>
 
+  <!-- Navigation -->
   <nav class="navbar">
-    <ul class="nav-links">
+    <ul>
       <li><a href="#">Hi STUDIO｜首页</a></li>
       <li><a href="#">About｜我们是谁</a></li>
-      <li><a href="#works">Works｜项目作品</a></li>
+      <li><a href="#">Works｜项目作品</a></li>
       <li><a href="#">Thinking｜保持饥饿</a></li>
       <li><a href="#">Contact｜合作方式</a></li>
       <li><a href="https://www.hisense.com" target="_blank">Back to Home｜回母星官网</a></li>
     </ul>
   </nav>
 
+  <!-- About Section -->
   <section class="about">
     <div class="text">
       <h2>About｜我们是谁</h2>
@@ -35,18 +39,22 @@
     </div>
   </section>
 
-  <!-- 最新的 Works 区：使用 projects.json 自动渲染卡片 -->
+  <!-- Works Section（使用 projects.json 动态渲染） -->
   <section class="works" id="works">
     <h2>Works｜项目作品</h2>
-    <div class="works-intro">
-      <p>这里汇总近期代表视频项目，点击卡片可在新片场或视频号查看完整内容。</p>
-    </div>
-    <div class="works-grid" id="worksGrid"></div>
+    <p class="works-intro">
+      这里汇总近期代表视频项目，点击卡片可在新片场或视频号查看完整内容。
+    </p>
+
+    <!-- 卡片容器：结构配合 style.css 中的 .works .grid / .work / .work-img -->
+    <div class="grid" id="worksGrid"></div>
+
     <div class="works-more">
       <a href="projects.html" target="_blank">查看全部项目 →</a>
     </div>
   </section>
 
+  <!-- Thinking Section -->
   <section class="thinking">
     <h2>Thinking｜保持饥饿</h2>
     <p>能让人记住的，才叫作品。不好看，不上桌。</p>
@@ -54,70 +62,80 @@
     <p>让看不懂的参数，变得“好懂、想买、有感觉”。</p>
   </section>
 
+  <!-- Contact Section -->
   <section class="contact">
     <h2>Contact｜合作方式</h2>
     <p>不管你是老板、友商，还是楼下部门，<br>先发 brief，我们靠作品说话。</p>
-    <p>邮箱：hi-studio@hisense.com （示例）<br>欢迎一切来稿、合作、提案、喷嘴。</p>
+    <p>邮箱：hi-studio@hisense.com</p>
   </section>
 
+  <!-- Footer -->
   <footer>
     <p>© 2025 Hi STUDIO ｜ 海信创意策划部出品</p>
   </footer>
 
   <!-- Works 卡片渲染脚本：从 projects.json 读取数据 -->
   <script>
-  (async function () {
-    try {
-      const res = await fetch('projects.json?_=' + Date.now());
-      const items = await res.json();
-      const grid = document.getElementById('worksGrid');
-      if (!Array.isArray(items) || !grid) return;
+    (async function () {
+      try {
+        const res = await fetch('projects.json?_=' + Date.now());
+        const items = await res.json();
+        const grid = document.getElementById('worksGrid');
+        if (!Array.isArray(items) || !grid) return;
 
-      // 首页只展示前 6 条，可通过调整 JSON 顺序来控制
-      const list = items.slice(0, 6);
+        // 首页最多展示前 6 条
+        const list = items.slice(0, 6);
 
-      const html = list.map(function (item) {
-        const title = item.title || '';
-        const year = item.year || '';
-        const product = item.productLine || '';
-        const platform = item.platform || '';
-        const cover = item.cover || '';
-        const url = item.url || '#';
-        const tags = (item.tags || [])
-          .slice(0, 3)
-          .map(function (t) {
-            return '<span class="work-tag">' + t + '</span>';
-          })
-          .join('');
+        const html = list.map(function (item) {
+          const title = item.title || '';
+          const year = item.year || '';
+          const product = item.productLine || '';
+          const platform = item.platform || '';
+          const cover = item.cover || '';
+          const url = item.url || '#';
+          const tags = Array.isArray(item.tags) ? item.tags : [];
 
-        return (
-          '<article class="work-card">' +
-            '<a class="work-thumb" href="' + url + '" target="_blank" rel="noopener">' +
-              (cover ? '<img src="' + cover + '" alt="' + title + '">' : '') +
-              (platform ? '<span class="work-badge">' + platform + '</span>' : '') +
-            '</a>' +
-            '<div class="work-body">' +
-              '<h3 class="work-title">' + title + '</h3>' +
-              '<p class="work-meta">' +
-                (year ? '<span>' + year + '</span>' : '') +
-                (year && product ? '<span>｜</span>' : '') +
-                (product ? '<span>' + product + '</span>' : '') +
-              '</p>' +
-              (tags ? '<div class="work-tags">' + tags + '</div>' : '') +
-            '</div>' +
-          '</article>'
-        );
-      }).join('');
+          const metaParts = [];
+          if (year) metaParts.push(year);
+          if (product) metaParts.push(product);
+          if (platform) metaParts.push(platform);
+          const metaText = metaParts.join('｜');
 
-      grid.innerHTML = html || '<p class="works-empty">暂无项目，请稍后再来。</p>';
-    } catch (e) {
-      console.error(e);
-      const grid = document.getElementById('worksGrid');
-      if (grid) {
-        grid.innerHTML = '<p class="works-empty">作品数据加载失败，请稍后再试。</p>';
+          const tagsHtml = tags.length
+            ? '<div class="work-tags">' +
+                tags.map(function (t) {
+                  return '<span class="work-tag">' + t + '</span>';
+                }).join('') +
+              '</div>'
+            : '';
+
+          return (
+            '<div class="work">' +
+              '<a href="' + url + '" target="_blank" rel="noopener">' +
+                '<div class="work-img" ' +
+                  (cover
+                    ? 'style="background-image:url(\'' + cover +
+                      '\');background-size:cover;background-position:center;"'
+                    : '') +
+                '></div>' +
+                '<h3>' + title + '</h3>' +
+                (metaText ? '<p>' + metaText + '</p>' : '') +
+                tagsHtml +
+              '</a>' +
+            '</div>'
+          );
+        }).join('');
+
+        grid.innerHTML = html || '<p class="works-empty">暂无项目，请稍后再来。</p>';
+      } catch (e) {
+        console.error(e);
+        const grid = document.getElementById('worksGrid');
+        if (grid) {
+          grid.innerHTML = '<p class="works-empty">作品数据加载失败，请稍后再试。</p>';
+        }
       }
-    }
-  })();
+    })();
   </script>
+
 </body>
 </html>
