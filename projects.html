@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Works｜项目作品展示</title>
-<link rel="stylesheet" href="assets/styles.css" />
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
@@ -33,7 +33,7 @@
 
 <script>
 async function load(){
-  const res = await fetch('data/projects.json?_=' + Date.now());
+  const res = await fetch('projects.json?_=' + Date.now());
   const items = await res.json();
 
   // Build filter options
