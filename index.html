@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hi STUDIO｜首页</title>
-  <link rel="stylesheet" href="assets/styles.css">
+ <link rel="stylesheet" href="styles.css">
   <style>
     /* 仅用于首页预览的轻微调整 */
     .works-preview .grid {grid-template-columns: repeat(3, 1fr);}
@@ -46,7 +46,7 @@
   <script>
   async function loadHome(){
     try{
-      const res = await fetch('data/projects.json?_=' + Date.now());
+      const res = await fetch('projects.json?_=' + Date.now());
       const items = await res.json();
       // 取前 6 条（可按时间或手动排序）
       const list = items.slice(0, 6);
