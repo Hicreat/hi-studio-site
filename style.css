@@ -1,138 +1,213 @@
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-  color: #111;
   background: #fff;
+  color: #111;
+  line-height: 1.6;
 }
 
+/* Hero */
 .hero {
   background: #000;
   color: #fff;
   text-align: center;
-  padding: 60px 20px;
+  padding: 60px 20px 40px;
 }
-
 .hero h1 {
   font-size: 48px;
-  margin-bottom: 10px;
+  margin: 0;
 }
-
-.slogan {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.scroll-tip {
+.scroll-down {
+  color: #aaa;
   font-size: 14px;
-  color: #999;
+  margin-top: 12px;
 }
 
+/* Navbar */
 .navbar {
   background: #fff;
+  border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-  text-align: center;
 }
-
-.navbar ul {
-  list-style: none;
+.nav-links {
   display: flex;
   justify-content: center;
-  padding: 10px;
-  margin: 0;
-  gap: 20px;
-  flex-wrap: wrap;
+  align-items: center;
+  flex-wrap: nowrap;
+  list-style: none;
+  padding: 12px 10px;
+  margin: 0 auto;
+  overflow-x: auto;
+  gap: 30px;
 }
-
-.navbar li a {
-  text-decoration: none;
-  font-weight: 600;
+.nav-links li a {
   color: #111;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+  white-space: nowrap;
   padding-bottom: 4px;
   border-bottom: 2px solid transparent;
-  transition: 0.3s;
+  transition: border-bottom 0.2s ease;
+}
+.nav-links li a:hover {
+  border-bottom: 2px solid #000;
 }
 
-.navbar li a:hover {
-  border-bottom: 2px solid #111;
-}
-
+/* About */
 .about {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  padding: 60px 5%;
-  gap: 40px;
+  align-items: center;
+  padding: 80px 5%;
 }
-
 .about .text {
   flex: 1 1 45%;
 }
-
 .about .image {
   flex: 1 1 45%;
+  text-align: right;
 }
-
-.about .image img {
-  width: 100%;
+.about img {
+  max-width: 100%;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
+/* Works（新版卡片样式） */
 .works {
-  padding: 60px 5%;
+  padding: 80px 5% 70px;
   background: #fafafa;
 }
-
 .works h2 {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 30px;
+  margin: 0;
 }
-
+.works-intro {
+  margin-top: 10px;
+  max-width: 640px;
+  color: #555;
+  font-size: 14px;
+}
 .works-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
 }
-
-.card {
+.work-card {
   background: #fff;
-  padding: 16px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 0 0 1px #eee;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
-
-.card .img {
-  background: #ddd;
+.work-card:hover {
+  transform: translateY(-4px);
+  border-color: #ddd;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+}
+.work-thumb {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  background: #eee;
+}
+.work-thumb img {
   width: 100%;
-  aspect-ratio: 4/3;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.work-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+.work-body {
+  padding: 14px 16px 16px;
+}
+.work-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.work-meta {
+  margin: 0;
+  font-size: 13px;
+  color: #777;
+  display: flex;
+  gap: 4px;
+}
+.work-tags {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.work-tag {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #555;
+  border: 1px solid #e3e5ea;
+}
+.works-more {
+  text-align: center;
+  margin-top: 28px;
+}
+.works-more a {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+}
+.works-more a:hover {
+  background: #333;
+}
+.works-empty {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #777;
 }
 
-.thinking, .contact {
-  padding: 60px 5%;
+/* Thinking & Contact */
+.thinking,
+.contact {
+  padding: 80px 5%;
 }
-
-.thinking h2, .contact h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
 .thinking p {
   border-left: 4px solid #000;
   padding-left: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   font-style: italic;
 }
 
+/* Footer */
 footer {
   text-align: center;
-  font-size: 14px;
   padding: 40px 20px;
+  font-size: 14px;
   color: #888;
 }
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .about {
+    padding: 60px 6%;
+  }
+  .works {
+    padding: 60px 6% 50px;
+  }
+}
+
